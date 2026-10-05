@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,AbstractUser
+from .managers import UserManager
 
 
 class User(AbstractBaseUser):
@@ -8,7 +9,8 @@ class User(AbstractBaseUser):
     full_name = models.CharField()
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    USERNAME_FIELD = 'phone_number'
+    objects = UserManager()
+    USERNAME_FIELD = 'phone_number' #should be unique
     REQUIRED_FIELDS = ["email", "full_name"]
     # django handles the password field automatically.
 
@@ -24,3 +26,4 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
