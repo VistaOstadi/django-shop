@@ -11,6 +11,11 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["email", "phone_number", "full_name"]
+        labels = {
+            "email": "Your email",
+            "phone_number": "Mobile number",
+            "full_name": "Full name",
+        }
 
     def clean_password2(self):
         cd = self.cleaned_data
