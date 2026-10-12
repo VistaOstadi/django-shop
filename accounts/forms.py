@@ -39,9 +39,31 @@ class UserChangeForm(forms.ModelForm):
         fields = ["email", "phone_number", "full_name", "password", "last_login"]
 
 
+class UserRegistrationForm(forms.Form):
+    email = forms.EmailField()
+    full_name = forms.CharField(label="Full Name")
+    phone_number = forms.CharField(max_length=11)
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        email_exists = User.objects.filter(email=email).exists()
+        if email_exists:
+            raise ValidationError("Email already exists")
+        return email
+
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data["phone_number"]
+        phone_number_exists = User.objects.filter(phone_number=phone_number).exists()
+        if phone_number_exists:
+            raise ValidationError("Phone number already exists")
+        return phone_number
 
 
 
+class VerifyCodeForm(forms.Form):
+    code = forms.CharField()
 
 
 
