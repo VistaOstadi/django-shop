@@ -16,7 +16,9 @@ def send_otp_code(phone_number, code):
         params = {'sender': '2000660110', 'receptor': phone_number, 'message': f"your code is {code}"}
         response = api.sms_send(params)
         print(response)
-        return True
+        if response and response[0].get("status") == 5:
+            return True
+        return False
 
     except Exception as e:
         print(e)
